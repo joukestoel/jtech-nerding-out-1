@@ -11,3 +11,4 @@ build/
 team_name/
 nbproject/
 build.xml
+*.*~
