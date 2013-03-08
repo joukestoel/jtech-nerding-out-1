@@ -1,0 +1,10 @@
+bin/
+target/
+out/
+*.class
+*.project
+*.classpath
+*.project
+*.iml
+.idea/
+team_name/
