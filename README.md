@@ -69,6 +69,7 @@ That's it!
 
 ### Step 4: Start a battle
 If all the above steps are succesful you should be able to select the robots that you will create. To check do the following
+
 1. Select the 'Battle' menu -> Select 'New'
 2. You should be able to see the robots in the 'nl.ordina.nerdingout...' packages -> Select the 'ExampleBot' -> hit 'Add'
 3. Select 'SittingDuck' -> hit 'Add'
