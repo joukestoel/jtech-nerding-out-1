@@ -8,7 +8,7 @@ build/
 *.project
 *.iml
 .idea/
-team_name/
+your_team/
 nbproject/
 build.xml
 *.*~
