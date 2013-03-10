@@ -1,5 +1,7 @@
 package nl.ordina.nerdingout.example;
 
+import java.awt.Color;
+
 import robocode.AdvancedRobot;
 import robocode.ScannedRobotEvent;
 
@@ -7,20 +9,23 @@ public class ExampleBot extends AdvancedRobot {
 
     public void run() {
         while(true) {
-            turnRadarLeft(360);
+        	setBodyColor(Color.BLACK);
+        	turnRadarLeft(360);
         }
     }
 
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
+        setBodyColor(Color.WHITE);
+
         if (event.getBearing() > 0) {
-            turnRight(event.getBearing());
+            setTurnRight(event.getBearing());
         }
         else {
-            turnLeft(-event.getBearing());
+            setTurnLeft(-event.getBearing());
         }
 
-        setAhead(event.getDistance() / 2);
+        setAhead((event.getDistance() / 2) - 50);
 
         fire(3);
     }
