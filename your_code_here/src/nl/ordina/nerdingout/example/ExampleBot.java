@@ -8,7 +8,6 @@ public class ExampleBot extends AdvancedRobot {
     public void run() {
         while(true) {
             turnRadarLeft(360);
-
         }
     }
 
