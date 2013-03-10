@@ -11,4 +11,8 @@ build/
 your_team/
 nbproject/
 build.xml
+.mylyn
+.plugins
+*.lock
+*.ini
 *.*~
