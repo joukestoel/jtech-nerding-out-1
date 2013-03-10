@@ -61,7 +61,7 @@ That's it!
 
 ### Step 3: Configuring the RoboCode app
 
-1. Start 'Robocode' (Browse to '[location_where_you_checked_out_the_nerding-out_project]/robocode_app/bin' -> double click 'robocode.bat/sh')
+1. Start 'Robocode' (Browse to '[location_where_you_checked_out_the_nerding-out_project]/robocode_app' -> double click 'robocode.bat/sh')
 2. Once 'Robocode' is running, select menu 'Options' -> Select 'Preferences'
 3. Select tab 'Development options' -> Hit 'Add'
 4. Select the directory which you have configured as your build output path in your IDE (i.e. [location_where_you_checked_out_the_nerding-out_project]/your_code_here/build/classes or /out/production/your_own_robot or /bin). Watch out! Make sure that you select the directory where the classes are put (this directory should contain the nl/ directory)
