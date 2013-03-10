@@ -14,16 +14,15 @@ public class ExampleBot extends AdvancedRobot {
 
     @Override
     public void onScannedRobot(ScannedRobotEvent event) {
-        double bearing = event.getBearing();
-        double heading = event.getHeading();
-        if (bearing > 0) {
-            turnRight(bearing);
+        if (event.getBearing() > 0) {
+            turnRight(event.getBearing());
         }
         else {
-            turnLeft(-bearing);
+            turnLeft(-event.getBearing());
         }
-        System.out.println(bearing);
+
         setAhead(event.getDistance() / 2);
+
         fire(3);
     }
 }
