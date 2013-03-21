@@ -8,7 +8,7 @@ This wiki can be used to set up your local environment.
 
 ## Setting up your local environment
 
-We will be using **Java 6** for building our code. Please make sure that this is your Java version when building your robots. Have your JAVA_HOME variable point to this version.
+Make sure you have **Java 6** or **Java 7** set up for building our code.
 
 There are three steps that you need to complete to have the whole setup needed.
 You'll need to:
