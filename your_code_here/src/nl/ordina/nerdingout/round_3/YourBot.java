@@ -1,4 +1,4 @@
-package nl.ordina.nerdingout.round_3.your_team;
+package nl.ordina.nerdingout.round_3;
 
 import robocode.AdvancedRobot;
 
