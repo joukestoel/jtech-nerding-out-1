@@ -17,21 +17,5 @@ public class ElmerFudd extends AdvancedRobot {
 			turnRadarLeft(360);
 		}
 	}
-	
-	@Override
-	public void onScannedRobot(ScannedRobotEvent event) {
-		if (event.getBearing() == getGunHeading()-getHeading()) {
-			
-		}
-		
-		setTurnRight(event.getBearing());	
-		setFire(0.5);
-		setAhead(100);		
-	}
-	
-	@Override
-	public void onHitRobot(HitRobotEvent event) {
-		fire(3);
-		ahead(5);
-	}
+
 }
