@@ -13,9 +13,9 @@ public class HareDestroyer extends AdvancedRobot {
 
 
     public void run() {
-        setBodyColor(Color.RED);
-        setGunColor(Color.RED);
-        setRadarColor(Color.RED);
+        setBodyColor(Color.GREEN);
+        setGunColor(Color.WHITE);
+        setRadarColor(Color.GREEN);
 
         while (true) {
             turnRadarLeft(360);
@@ -25,6 +25,8 @@ public class HareDestroyer extends AdvancedRobot {
     @Override
     public void onScannedRobot(ScannedRobotEvent e) {
 
+
+        setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
         double bearing = e.getBearing();
 
         setTurnRight(bearing);
