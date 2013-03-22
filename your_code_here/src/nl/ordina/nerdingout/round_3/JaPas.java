@@ -19,6 +19,8 @@ public class JaPas extends AdvancedRobot {
     public void run() {
 		setColors(Color.BLUE, Color.BLUE, Color.WHITE);
 		setScanColor(Color.ORANGE);
+		setAdjustRadarForRobotTurn(true);
+		setAhead(100);
         while(true) {
     		turnRadarLeft(360);
         }
