@@ -5,10 +5,8 @@ import java.awt.Color;
 import robocode.AdvancedRobot;
 import robocode.ScannedRobotEvent;
 import static robocode.util.Utils.*;
-import java.util.Random;
 
 public class WalPas extends AdvancedRobot {
-    private Random random = new Random();
 
     @Override
 	public void run() {
@@ -20,19 +18,28 @@ public class WalPas extends AdvancedRobot {
 
 	public void onScannedRobot(ScannedRobotEvent event) {
 		double distance = event.getDistance();
-		turnRight(event.getBearing());
+		double haasHeading = event.getHeading();
+		double bearing = event.getBearing();
+		double curHeading = getHeading();
+//		System.out.println("dist:"+distance+"^");
+//		System.out.println("curH:"+curHeading+" haasH:"+haasHeading+"^");
+		if (bearing < 0) {
+			turnLeft(-bearing);
+		} else {
+			turnRight(bearing);
+		}
 		// turnRight(normalRelativeAngleDegrees(getHeading() - getRadarHeading()
 		// + event.getBearing()));
-		// ahead(20);
-		fire(2);
+		setAhead(Double.MAX_VALUE);
+		fire(fireBoDistance(distance));
 	}
 
-	private double spread(int degrees) {
-		return spreadFactor() * degrees;
+	// fire power based on distance
+	private double fireBoDistance(double distance) {
+		if (distance < 250) {
+			return 3;
+		} else {
+			return 1;
+		}
 	}
-
-	private double spreadFactor() {
-		return (random.nextDouble() * 2) - 1;
-	}
-
 }
