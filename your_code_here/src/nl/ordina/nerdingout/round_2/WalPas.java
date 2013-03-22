@@ -3,8 +3,8 @@ package nl.ordina.nerdingout.round_2;
 import java.awt.Color;
 
 import robocode.AdvancedRobot;
+import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
-import static robocode.util.Utils.*;
 
 public class WalPas extends AdvancedRobot {
 
@@ -18,28 +18,33 @@ public class WalPas extends AdvancedRobot {
 
 	public void onScannedRobot(ScannedRobotEvent event) {
 		double distance = event.getDistance();
-		double haasHeading = event.getHeading();
+		
 		double bearing = event.getBearing();
-		double curHeading = getHeading();
 //		System.out.println("dist:"+distance+"^");
-//		System.out.println("curH:"+curHeading+" haasH:"+haasHeading+"^");
 		if (bearing < 0) {
 			turnLeft(-bearing);
 		} else {
 			turnRight(bearing);
 		}
-		// turnRight(normalRelativeAngleDegrees(getHeading() - getRadarHeading()
-		// + event.getBearing()));
 		setAhead(Double.MAX_VALUE);
 		fire(fireBoDistance(distance));
 	}
 
 	// fire power based on distance
 	private double fireBoDistance(double distance) {
-		if (distance < 250) {
+		if (distance < 350) {
 			return 3;
 		} else {
 			return 1;
 		}
+	}
+	
+	@Override
+	public void onBulletHit(BulletHitEvent event) {
+		setBodyColor(new Color(randValue(), randValue(), randValue()));
+	}
+	
+	private int randValue() {
+		return (int)(Math.random() * 128 + 128);
 	}
 }
