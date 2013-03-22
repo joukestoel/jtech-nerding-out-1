@@ -68,7 +68,7 @@ public class FeaMar extends AdvancedRobot {
 
     @Override
     public void onHitByBullet(final HitByBulletEvent event) {
-        ahead(spread(200));
+        ahead(spread(100)-200);
 
     }
 
