@@ -2,7 +2,7 @@ package nl.ordina.nerdingout.round_3;
 
 import robocode.AdvancedRobot;
 
-public class YourBot extends AdvancedRobot {
+public class Veamer extends AdvancedRobot {
     @Override
     public void run() {
         while(true) {
