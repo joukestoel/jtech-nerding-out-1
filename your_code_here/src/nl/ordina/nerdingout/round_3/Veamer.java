@@ -1,45 +1,50 @@
 package nl.ordina.nerdingout.round_3;
 
 import robocode.AdvancedRobot;
+import robocode.HitByBulletEvent;
 import robocode.HitWallEvent;
 import robocode.ScannedRobotEvent;
+import robocode.WinEvent;
 
 import java.awt.*;
 import java.util.Random;
 
-import static robocode.util.Utils.normalRelativeAngleDegrees;
+import static robocode.util.Utils.*;
 
 public class Veamer extends AdvancedRobot {
+    private static final int DISTANCE = 100;
     private Random random = new Random();
-    private String nameToKill = "";
+    private volatile String nameToKill = "";
 
     @Override
     public void run() {
-        setAdjustRadarForRobotTurn(true);
+//        setAdjustRadarForRobotTurn(true);
         setColors(Color.BLACK, Color.BLACK, Color.WHITE);
-
         while (true) {
-            turnRadarLeft(360);
+            turnGunRight(360);
             // start your engines for round 3!
         }
     }
 
     @Override
     public void onScannedRobot(final ScannedRobotEvent e) {
-        final String name = e.getName();
-        if (e.getDistance() < 100 && nameToKill.isEmpty()) {
+        System.out.println("e.getDistance() = " + e.getDistance());
+        System.out.println("e.getName() = " + e.getName());
+        if (e.getDistance() < DISTANCE && nameToKill.isEmpty()) {
             nameToKill = e.getName();
             System.out.println("Go get m!!!");
         }
         if (!nameToKill.isEmpty()) {
+            System.out.println("kill someone");
             setTurnRight(e.getBearing());
             setFire(Math.min(250 / e.getDistance(), 3));
             setAhead(e.getDistance() - 10);
-            turnRadarRight(normalRelativeAngleDegrees(((getHeading() - getRadarHeading()) + e.getBearing())));
+            turnGunRight(normalRelativeAngleDegrees(((getHeading() - getRadarHeading()) + e.getBearing())));
             return;
         }
 
         // start your engines for round 1!
+        System.out.println("randomness");
         if (chance(0.1)) {
             setAhead(spread(100));
         } else {
@@ -66,6 +71,14 @@ public class Veamer extends AdvancedRobot {
     }
 
     @Override
+    public void onHitByBullet(final HitByBulletEvent event) {
+        System.out.println("get away");
+        nameToKill = "";
+        turnLeft(90);
+        back(200);
+    }
+
+    @Override
     public void onHitWall(final HitWallEvent e) {
         setAhead(spread(50) - 100);
 
@@ -76,5 +89,12 @@ public class Veamer extends AdvancedRobot {
             turnRight(180);
         }
     }
+
+    public void onWin(WinEvent e) {
+   		// Victory dance
+   		turnRight(36000);
+        setBodyColor(Color.ORANGE);
+   	}
+
 
 }
