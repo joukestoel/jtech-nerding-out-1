@@ -3,12 +3,10 @@ package nl.ordina.nerdingout.round_2;
 import java.awt.Color;
 
 import robocode.AdvancedRobot;
+import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
-import static robocode.util.Utils.*;
-import java.util.Random;
 
 public class WalPas extends AdvancedRobot {
-    private Random random = new Random();
 
     @Override
 	public void run() {
@@ -20,19 +18,33 @@ public class WalPas extends AdvancedRobot {
 
 	public void onScannedRobot(ScannedRobotEvent event) {
 		double distance = event.getDistance();
-		turnRight(event.getBearing());
-		// turnRight(normalRelativeAngleDegrees(getHeading() - getRadarHeading()
-		// + event.getBearing()));
-		// ahead(20);
-		fire(2);
+		
+		double bearing = event.getBearing();
+//		System.out.println("dist:"+distance+"^");
+		if (bearing < 0) {
+			turnLeft(-bearing);
+		} else {
+			turnRight(bearing);
+		}
+		setAhead(Double.MAX_VALUE);
+		fire(fireBoDistance(distance));
 	}
 
-	private double spread(int degrees) {
-		return spreadFactor() * degrees;
+	// fire power based on distance
+	private double fireBoDistance(double distance) {
+		if (distance < 350) {
+			return 3;
+		} else {
+			return 1;
+		}
 	}
-
-	private double spreadFactor() {
-		return (random.nextDouble() * 2) - 1;
+	
+	@Override
+	public void onBulletHit(BulletHitEvent event) {
+		setBodyColor(new Color(randValue(), randValue(), randValue()));
 	}
-
+	
+	private int randValue() {
+		return (int)(Math.random() * 128 + 128);
+	}
 }
