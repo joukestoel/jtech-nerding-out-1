@@ -23,6 +23,7 @@ public class ExampleBot extends AdvancedRobot {
     }
 
     private void setTurnGunTowardsOpponent(double opponentsBearing) {
+    	
         // do something to turn the gun towards the opponent
         // make sure you are swinging the shortest way!
     }

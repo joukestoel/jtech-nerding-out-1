@@ -1,7 +1,6 @@
 package nl.ordina.nerdingout.round_2;
 
 import robocode.AdvancedRobot;
-import robocode.HitWallEvent;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 
@@ -27,47 +26,32 @@ public class FourtyTwo extends AdvancedRobot {
         final double newHaasDistance = e.getDistance();
         final double newHaasBearing = e.getBearing();
         final double deltaDistance = calcDeltaDistance(haasDistance, newHaasDistance);
-//        System.out.println("deltaDistance = " + deltaDistance);
+        System.out.println("deltaDistance = " + deltaDistance);
         final double deltaBearing = calcDeltaBearing(haasBearing, newHaasBearing);
 
-        setTurnRight(e.getBearing());
         setTurnRadarRight(relativeRadarBearing(e));
-        setTurnGunRight(relativeGunBearing(e) + (newHaasDistance * deltaBearing * calcGunFactor(deltaDistance)));
-//        setTurnRight(e.getBearing() + (newHaasDistance * deltaBearing * calcDriveFactor(deltaDistance)));
+        setTurnGunRight(relativeGunBearing(e) + (newHaasDistance * deltaBearing * calcFactor(deltaDistance)));
 
+        System.out.println("getGunHeat() = " + getGunHeat());
 
-//        System.out.println("getGunHeat() = " + getGunHeat());
-
-        doOurFire(newHaasDistance);
+//        doOurFire(newHaasDistance);
+        fire(2);
         haasDistance = newHaasDistance;
         haasBearing = newHaasBearing;
-//        ahead(newHaasDistance);
+
     }
 
+//    private void doOurFire(final double newHaasDistance) {
+//        getfi
+//    }
 
-    private double fieldMaxDist() {
-        final double x = getBattleFieldWidth();
-        final double y = getBattleFieldHeight();
-        return Math.sqrt(x * x + y * y);
-    }
-
-    private void doOurFire(final double newHaasDistance) {
-        final double power = 3.0 - 2.9 * (newHaasDistance / fieldMaxDist());
-//        System.out.println("power = " + power);
-        fire(power);
-    }
-
-    private double calcGunFactor(final double deltaDistance) {
-        final double v = (10 + deltaDistance) / 20.0 * 0.2;
-//        System.out.println("v = " + v);
+    private double calcFactor(final double deltaDistance) {
+        final double v = (10 + deltaDistance) / 20.0 * 0.1;
+        System.out.println("v = " + v);
         return v;
     }
 
-    private double calcDriveFactor(final double deltaDistance) {
-        final double v = (10 + deltaDistance) / 20.0 * 0.4;
-//        System.out.println("v = " + v);
-        return v;
-    }
+
 
     private double calcDeltaBearing(final double haasBearing, final double newHaasBearing) {
         return newHaasBearing - haasBearing;
@@ -85,12 +69,7 @@ public class FourtyTwo extends AdvancedRobot {
         return Utils.normalRelativeAngleDegrees((getHeading() - getGunHeading()) + e.getBearing());
     }
 
-    @Override
-    public void onHitWall(final HitWallEvent event) {
-        setAhead(-100);
-    }
-
-/*
+    /*
     newHaasBearing = -177.98862248792454
     newHaasDistance = 337.9768390020706
     haasDistance = 343.00796959872713
