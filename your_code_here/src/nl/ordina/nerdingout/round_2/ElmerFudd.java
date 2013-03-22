@@ -14,6 +14,7 @@ public class ElmerFudd extends AdvancedRobot {
 	@Override
 	public void run() {
 		setColors(brown, Color.GRAY, brown);
+		setAdjustGunForRobotTurn(true);
 		while (true)  {
 			turnRadarLeft(360);
 		}
@@ -22,11 +23,10 @@ public class ElmerFudd extends AdvancedRobot {
 	@Override
 	public void onScannedRobot(ScannedRobotEvent event) {		
 		double gunBearing = Utils.normalRelativeAngleDegrees((getGunHeading()-getHeading()+360)%360);
-		if (Math.abs(event.getBearing() - gunBearing) < 3) {
-			fire(3);
-		}
+		setTurnGunRight(event.getBearing() - gunBearing);
+		fire(3);
 		
-		turnRight(event.getBearing());	
+		setTurnRight(event.getBearing());	
 		setAhead(10000);		
 	}
 	
