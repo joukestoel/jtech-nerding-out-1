@@ -4,6 +4,7 @@ import robocode.AdvancedRobot;
 import robocode.HitByBulletEvent;
 import robocode.HitRobotEvent;
 import robocode.HitWallEvent;
+import robocode.ScannedRobotEvent;
 
 import java.awt.*;
 import java.util.Random;
@@ -20,6 +21,7 @@ public class FeaMar extends AdvancedRobot {
     public void run() {
         setColors(Color.BLACK, Color.BLACK, Color.WHITE);
         while (true) {
+            setTurnRadarLeft(360);
             // start your engines for round 1!
             if (chance(0.1)) {
                 setAhead(spread(100));
@@ -56,7 +58,6 @@ public class FeaMar extends AdvancedRobot {
             turnRight(90 + e.getBearing());
         } else {
             turnRight(180);
-//            setAhead(50);
         }
     }
 
@@ -67,28 +68,18 @@ public class FeaMar extends AdvancedRobot {
     }
 
     @Override
-    public void onHitByBullet(final HitByBulletEvent event) {
+    public void onHitByBullet(final HitByBulletEvent e) {
         ahead(spread(100)-200);
 
     }
 
-    private double avoidWall(double factor) {
-        if (closeToWall()) {
+    @Override
+    public void onScannedRobot(final ScannedRobotEvent e) {
+        if (!e.getName().startsWith("abc")) {
+            System.out.println("e.getName() = " + e.getName());
 
         }
-        return factor;
+
     }
 
-    private boolean closeToWall() {
-        final double y = getY();
-        final double battleFieldHeight = getBattleFieldHeight();
-        final double x = getX();
-        final double battleFieldWidth = getBattleFieldWidth();
-        final double close = 10;
-        return x < close || y < close || battleFieldWidth - x < close || battleFieldHeight - y < close;
-    }
-
-    private boolean headedToWall() {
-        return false;
-    }
 }
