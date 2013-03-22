@@ -5,7 +5,6 @@ import robocode.ScannedRobotEvent;
 
 import java.awt.*;
 
-import static robocode.util.Utils.normalRelativeAngleDegrees;
 
 public class HareDestroyer extends AdvancedRobot {
 
@@ -25,22 +24,19 @@ public class HareDestroyer extends AdvancedRobot {
 
     @Override
     public void onScannedRobot(ScannedRobotEvent e) {
-
-
+        //find the difference between our tank heading (getHeading()) and our radar heading (getRadarHeading()) and add the bearing to the scanned robot (e.getBearing())
+        setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
         double bearing = e.getBearing();
-        //double angle = normalRelativeAngleDegrees((getHeading() - getRadarHeading()) + bearing);
+
         setTurnRight(bearing);
 
-
-        if(e.getDistance() > stoppingDistance) {
+        if (e.getDistance() > stoppingDistance) {
             setAhead(50);
         }
 
-        if(e.getDistance() < fireDistance){
+        if (e.getDistance() < fireDistance) {
             setFire(3);
         }
-
-
 
     }
 
