@@ -3,14 +3,16 @@ package nl.ordina.nerdingout.round_2;
 import static robocode.util.Utils.normalRelativeAngleDegrees;
 import robocode.AdvancedRobot;
 import robocode.ScannedRobotEvent;
+import robocode.SkippedTurnEvent;
 
 import java.awt.*;
 
 public class Feamar extends AdvancedRobot {
-	private boolean found = false;
+	private volatile boolean found = false;
 	
 	@Override
     public void run() {
+		setAdjustRadarForRobotTurn(true);
         setColors(Color.BLACK, Color.BLACK, Color.WHITE);
         while(true) {
             // start your engines for round 2!
@@ -22,9 +24,19 @@ public class Feamar extends AdvancedRobot {
     }
 
 	@Override
+	public void onSkippedTurn(SkippedTurnEvent event) {
+		found = false;
+	}
+	
+	@Override
 	public void onScannedRobot(ScannedRobotEvent event) {
 		found = true;
-		System.out.println("Haas");
 		turnRadarRight(normalRelativeAngleDegrees(((getHeading() - getRadarHeading()) + event.getBearing())));
+    	setTurnRight(event.getBearing());
+    	if (event.getDistance() < 100) {
+    		setFire(1.5);
+    	} else {
+        	setAhead(50);
+    	}
 	}
 }
