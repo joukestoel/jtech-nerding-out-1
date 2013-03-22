@@ -11,49 +11,63 @@ import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 
 public class R2D2 extends AdvancedRobot {
-	int direction = 1;	
+	int direction = 1;
 	Map<String, ScannedRobotEvent> enemies = new HashMap<String, ScannedRobotEvent>();
-	
+
 	@Override
 	public void run() {
 		setColors(Color.WHITE, Color.BLUE, Color.WHITE);
-		setAdjustGunForRobotTurn(true);
-		while (true)  {
+		// setAdjustGunForRobotTurn(true);
+		while (true) {
 			turnRadarLeft(360);
 		}
 	}
-	
+
 	@Override
 	public void onScannedRobot(ScannedRobotEvent event) {
 		enemies.put(event.getName(), event);
-		fireOn(selectTarget());		
+		fireOn(selectTarget());
 	}
 
 	private void fireOn(ScannedRobotEvent event) {
-		double gunBearing = Utils.normalRelativeAngleDegrees((getGunHeading()-getHeading()+360)%360);
+		double gunBearing = Utils.normalRelativeAngleDegrees((getGunHeading()
+				- getHeading() + 360) % 360);
 		setTurnGunRight(event.getBearing() - gunBearing);
-		fire(1);
-		
-		setTurnRight(event.getBearing()-90);	
+
+		double absoluteBearing = getHeadingRadians()
+				+ event.getBearingRadians();
+		setTurnGunRightRadians(Utils
+				.normalRelativeAngle(absoluteBearing
+						- getGunHeadingRadians()
+						+ (event.getVelocity()
+								* Math.sin(event.getHeadingRadians()
+										- absoluteBearing) / 13.0)));
+		if (event.getDistance() < 300) {
+			setFire(3.0);
+		}
+
+		// fire(1);
+
+		setTurnRight(event.getBearing() - 90);
 		setAhead(direction * 100);
 	}
-	
+
 	@Override
 	public void onHitRobot(HitRobotEvent event) {
 		fire(3);
 		ahead(5);
-	}	
-	
+	}
+
 	@Override
-		public void onHitWall(HitWallEvent event) {
+	public void onHitWall(HitWallEvent event) {
 		direction *= -1;
 	}
-	
+
 	ScannedRobotEvent selectTarget() {
 		ScannedRobotEvent target = enemies.values().iterator().next();
 		for (ScannedRobotEvent e : enemies.values()) {
 			if (e.getDistance() < target.getDistance()) {
-				target=e;
+				target = e;
 			}
 		}
 		return target;
