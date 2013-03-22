@@ -29,8 +29,12 @@ public class HareDestroyer extends AdvancedRobot {
 
         setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
         double bearing = e.getBearing();
-
-        setTurnRight(bearing);
+        
+        if (Math.abs(bearing) > 90) {
+        	turnRight(bearing);
+        } else {
+        	setTurnRight(bearing);
+        }
 
         if (e.getDistance() > stoppingDistance) {
             setAhead(50);
