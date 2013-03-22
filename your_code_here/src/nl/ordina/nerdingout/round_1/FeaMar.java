@@ -49,17 +49,20 @@ public class FeaMar extends AdvancedRobot {
 
     @Override
     public void onHitWall(HitWallEvent e) {
+        setAhead(spread(50)-100);
+
         if (chance(0.5)) {
 
             turnRight(90 + e.getBearing());
         } else {
             turnRight(180);
-            setAhead(50);
+//            setAhead(50);
         }
     }
 
     @Override
     public void onHitRobot(final HitRobotEvent e) {
+        setAhead(spread(50)-100);
         turnRight(90 + e.getBearing());
     }
 
