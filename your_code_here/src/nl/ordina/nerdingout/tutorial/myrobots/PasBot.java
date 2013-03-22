@@ -3,7 +3,7 @@ package nl.ordina.nerdingout.tutorial.myrobots;
 import robocode.AdvancedRobot;
 import robocode.ScannedRobotEvent;
 
-public class TutorialMovement1 extends AdvancedRobot {
+public class PasBot extends AdvancedRobot {
 
     @Override
     public void run() {
