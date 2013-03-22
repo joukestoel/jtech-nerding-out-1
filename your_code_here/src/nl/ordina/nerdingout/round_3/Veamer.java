@@ -15,9 +15,13 @@ public class Veamer extends AdvancedRobot {
     private static final int DISTANCE = 100;
     private Random random = new Random();
     private volatile String nameToKill = "";
+    private double maxHeight;
+    private double maxWidth;
 
     @Override
     public void run() {
+        maxHeight = getBattleFieldHeight() - 20;
+        maxWidth =  getBattleFieldWidth() - 20;
 //        setAdjustRadarForRobotTurn(true);
         setColors(Color.BLACK, Color.BLACK, Color.WHITE);
         while (true) {
@@ -28,8 +32,6 @@ public class Veamer extends AdvancedRobot {
 
     @Override
     public void onScannedRobot(final ScannedRobotEvent e) {
-        System.out.println("e.getDistance() = " + e.getDistance());
-        System.out.println("e.getName() = " + e.getName());
         if (e.getDistance() < DISTANCE && nameToKill.isEmpty()) {
             nameToKill = e.getName();
             System.out.println("Go get m!!!");
@@ -37,9 +39,12 @@ public class Veamer extends AdvancedRobot {
         if (!nameToKill.isEmpty()) {
             System.out.println("kill someone");
             setTurnRight(e.getBearing());
-            setFire(Math.min(250 / e.getDistance(), 3));
             setAhead(e.getDistance() - 10);
             turnGunRight(normalRelativeAngleDegrees(((getHeading() - getRadarHeading()) + e.getBearing())));
+            if (getGunHeat() == 0) {
+                fire(Math.min(250 / e.getDistance(), 3));
+            }
+            avoidWalls();
             return;
         }
 
@@ -56,6 +61,7 @@ public class Veamer extends AdvancedRobot {
         } else {
             turnRight(180);
         }
+        avoidWalls();
     }
 
     private boolean chance(final double chance) {
@@ -88,6 +94,25 @@ public class Veamer extends AdvancedRobot {
         } else {
             turnRight(180);
         }
+    }
+
+    private void avoidWalls() {
+        if (nearingNorth() || nearingSouth() || nearingEast() || nearingWest()) {
+            back(100);
+        }
+    }
+
+    private boolean nearingNorth() {
+        return getY() > maxHeight;
+    }
+    private boolean nearingSouth() {
+        return getY() < 20;
+    }
+    private boolean nearingEast() {
+        return getX() > maxWidth;
+    }
+    private boolean nearingWest() {
+        return getX() < 20;
     }
 
     public void onWin(WinEvent e) {
