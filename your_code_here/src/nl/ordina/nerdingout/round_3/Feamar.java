@@ -5,27 +5,37 @@ import robocode.*;
 import java.awt.*;
 import java.util.Random;
 
-public class Feamar extends AdvancedRobot {
+import static robocode.util.Utils.normalRelativeAngleDegrees;
 
+public class Feamar extends AdvancedRobot {
     private Random random = new Random();
 
     @Override
     public void run() {
+        setAdjustGunForRobotTurn(true);
+        setAdjustRadarForRobotTurn(true);
+        setAdjustRadarForGunTurn(true);
         setColors(Color.BLACK, Color.BLACK, Color.WHITE);
         while (true) {
             setTurnRadarLeft(360);
-            // start your engines for round 1!
-            if (chance(0.1)) {
-                setAhead(spread(100));
-            } else {
-                setAhead(100);
-            }
+            move();
+            turn();
+        }
+    }
 
-            if (chance(0.9)) {
-                turnRight(spread(50));
-            } else {
-                turnRight(180);
-            }
+    private void turn() {
+        if (chance(0.9)) {
+            turnRight(spread(50));
+        } else {
+            turnRight(180);
+        }
+    }
+
+    private void move() {
+        if (chance(0.1)) {
+            setAhead(spread(100));
+        } else {
+            setAhead(100);
         }
     }
 
@@ -63,9 +73,12 @@ public class Feamar extends AdvancedRobot {
     }
 
     @Override
-    public void onScannedRobot(final ScannedRobotEvent e) {
-
+    public void onScannedRobot(final ScannedRobotEvent event) {
+        setTurnGunRight(event.getBearing());
+        if (event.getDistance() < 300) {
+            setFire(Math.min(100 / event.getDistance(), 3));
+        }
+        setAhead(event.getDistance() - 10);
+        turnRadarRight(normalRelativeAngleDegrees(((getHeading() - getRadarHeading()) + event.getBearing())));
     }
-
-
 }
