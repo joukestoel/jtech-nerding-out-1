@@ -24,8 +24,7 @@ public class HareDestroyer extends AdvancedRobot {
 
     @Override
     public void onScannedRobot(ScannedRobotEvent e) {
-        //find the difference between our tank heading (getHeading()) and our radar heading (getRadarHeading()) and add the bearing to the scanned robot (e.getBearing())
-        setTurnRadarRight(getHeading() - getRadarHeading() + e.getBearing());
+
         double bearing = e.getBearing();
 
         setTurnRight(bearing);
